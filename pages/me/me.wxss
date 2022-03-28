@@ -1,5 +1,5 @@
 page {
-  background: #f4c903;
+  background: #f3f3f1;
 }
 
 .header {
@@ -8,7 +8,7 @@ page {
   flex-direction: column;
   padding-bottom: 15px;
   align-items: center;
-  background: #f4c903;
+  background: #f3f3f2;
 
 }
 

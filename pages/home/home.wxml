@@ -1,5 +1,11 @@
+<!-- 搜索框 -->
+<view class="searchRoot">
+	<input class="searchInput" bindconfirm='goSearch' confirm-type='search' bindinput="getSearchKey" placeholder="搜索商品" />
+	<image class="searchImg" bindtap="goSearch" src="/image/sousuo.png"></image>
+</view>
+
 <!-- 顶部轮播图 -->
-<view style="margin: 10rpx;">
+<view>
 	<swiper indicator-dots="{{true}}" indicator-color="#f4c903" autoplay="true" circular="true">
 		<block wx:for="{{banner}}" wx:key="banner">
 			<swiper-item bindtap="goHuiShou">
@@ -9,11 +15,6 @@
 	</swiper>
 </view>
 
-<!-- 搜索框 -->
-<view class="searchRoot">
-	<input class="searchInput" bindconfirm='goSearch' confirm-type='search' bindinput="getSearchKey" placeholder="搜索商品" />
-	<image class="searchImg" bindtap="goSearch" src="/image/sousuo.png"></image>
-</view>
 
 <!-- 九宫格 -->
 <view class="category_panel1">

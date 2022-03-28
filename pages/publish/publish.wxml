@@ -12,7 +12,7 @@
     <view class="picker">
       <!-- (点击选择)商品类型：{{array[index]}} -->
       <text class="xuhua">点击选择 > </text> 
-      {{array[index]}}
+      <text style="font-weight: 300;">{{array[index]}}</text>
     </view>
   </picker>
   </view>

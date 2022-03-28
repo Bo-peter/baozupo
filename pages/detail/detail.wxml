@@ -3,10 +3,10 @@
 <view wx:if="{{good}}" class="root">
 	<!-- 顶部轮播图 -->
 	<view style="margin: 10rpx;">
-		<swiper indicator-dots="{{true}}" indicator-color="#f4c903" autoplay="true" circular="true">
+		<swiper indicator-dots="{{true}}" indicator-color="#f4c903" autoplay="true" circular="true" style="width: 100%; height: 600rpx;">
 			<block wx:for="{{good.img}}" wx:key="banner">
 				<swiper-item bindtap="previewImg" data-index="{{index}}">
-					<image src='{{item}}' style="width: 100%;height: 100%;"/>
+					<image src='{{item}}' style="width: 100%;" mode="widthFix"/>
 				</swiper-item>
 			</block>
 		</swiper>
