@@ -1,0 +1,73 @@
+<!--导入时间格式化工具filter.wxs-->
+<wxs src="../../utils/filter.wxs" module="filters" />
+<view wx:if="{{good}}" class="root">
+	<!-- 顶部轮播图 -->
+	<view style="margin: 10rpx;">
+		<swiper indicator-dots="{{true}}" indicator-color="#f4c903" autoplay="true" circular="true">
+			<block wx:for="{{good.img}}" wx:key="banner">
+				<swiper-item bindtap="previewImg" data-index="{{index}}">
+					<image src='{{item}}' style="width: 100%;height: 100%;"/>
+				</swiper-item>
+			</block>
+		</swiper>
+	</view>
+	<!-- 商品信息 -->
+	<view class="good_root">
+		<view class="good_title" style="margin: 20rpx 0rpx;">{{good.name}}</view>
+		<view class="price-stepper">
+			<view class="good_price" style="margin: 20rpx 0rpx;">{{good.price}}元/天</view>
+		
+		<view class="good_num" style="margin: 35rpx 0rpx 0rpx 0rpx;">剩余数量：{{good.num}} </view>
+		</view>
+	</view>
+	<!-- 发布时间 -->
+	<!-- <view class="good_time">商品发布时间:{{good._createTime?filters.formatDate(good._createTime):''}}</view> -->
+	<view class="container" style="margin: auto;">
+		<picker mode="date" bindchange="modifyStartDate" style="margin: 10rpx 10rpx;">开始日期(点击选择)：{{startDate}}
+		</picker>
+	</view>
+	<view style="margin: 20rpx 0rpx;"></view>
+	<view class="container" style="margin: auto;">
+		<picker mode="date" bindchange="modifyEndDate" style="margin: 10rpx 10rpx;">结束日期(点击选择)：{{endDate}}
+		</picker>
+	</view>
+	<!-- 商品描述 -->
+	<view class="good_content">{{good.content}}</view>
+	<!-- 评论区域 -->
+	<view class="pingjia_tip">用户评价:</view>
+	<view wx:if="{{list&&list.length<=0}}">
+		<view class="wupingjia" style="margin: 50rpx 0rpx;">
+			<text class="ziti">暂无评价 ⁀⁔⁀</text>
+		</view>
+	</view>
+	<view wx:if="{{list&&list.length>0}}">
+		<view class='cont_count' wx:for="{{list}}" wx:key="key">
+			<view class="item_root">
+				<view class="top_root">
+					<image class='img_left' src='{{item.avatarUrl}}' />
+					<view class="top_right">
+						<text class='name'>{{item._createTime?filters.formatDate(item._createTime):''}}</text>
+						<text class='name'>{{item.name}}评论：</text>
+					</view>
+				</view>
+				<view class='content'>{{item.content}}</view>
+			</view>
+		</view>
+	</view>
+	<!--页面底部区域  -->
+	<view class="bottom_box">
+		<view class="choose_ok" bindtap="gotoOrder">选好了</view>
+	</view>
+
+	<!-- 提交订单时还未登录的弹窗 -->
+	<view class='toast_box' hidden='{{!isShowAddressSetting}}' bindtap="closeLoginView">
+		<view class='toastbg'></view>
+		<view class='showToast'>
+			<button class="toast_btn"  type="primary" bindtap="goLogin">授权登陆</button>
+		</view>
+	</view>
+</view>
+<!-- 否则 -->
+<view wx:else class='nothing'>
+	<label class='none_tab'>商品不存在~~</label>
+</view>

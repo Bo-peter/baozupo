@@ -1,0 +1,27 @@
+<!-- 菜单区域  -->
+<view class="main">
+  <scroll-view scroll-y="true" scroll-with-animation="true" bindscroll="rightScrollFn" class="left">
+    <view wx:for="{{menuArr}}" data-myid="{{item.id}}" wx:key="index"
+      class="scroll-view-item left-tab {{leftActiveNum==item.id ? 'active' : ''}}" bindtap="leftClickFn">{{item.title}}
+    </view>
+  </scroll-view>
+
+  <scroll-view scroll-y="true" scroll-with-animation="true" bindscroll="rightScrollFn" class="right"
+    scroll-into-view="top{{Tab}}">
+    <view wx:for="{{menuArr}}" wx:key="index" id="top{{item.id}}" class="scroll-view-item rightblock">
+      <view class="title">{{item.title}}</view>
+      <block wx:for="{{item.list}}" wx:key="index">
+        <view class="caipin_item" data-id="{{item._id}}" bindtap="goDetail">
+          <image class="cai_img" src="{{item.img[0]}}" />
+          <view class="cai_root2">
+            <view class="cai_title" data-index="{{index}}">{{item.name}}</view>
+            <view class="cai_sell">剩余：{{item.num}} </view>
+            <view class="price-stepper">
+              <view class="cai_price" data-index="{{index}}">{{item.price}}元/天</view>
+            </view>
+          </view>
+        </view>
+      </block>
+    </view>
+  </scroll-view>
+</view>

@@ -1,0 +1,37 @@
+<form catchsubmit="publish" >
+  <text class="title">1、请输入商品名</text>
+  <input class="input" name="name" style="margin: auto;"/>
+  <text class="title">2、请输入出租价格(元/天)</text>
+  <input class="input" name="price" type="digit" style="margin: auto;"/>
+  <text class="title">3、请输入商品数量</text>
+  <input class="input" name="num" type="number" style="margin: auto;"/>
+  <text class="title">4、选择商品类型</text>
+  <!-- 选择商品类型 -->
+  <view class="container" style="margin: auto;">
+  <picker bindchange="bindPickerChange" value="{{array[index]}}" range="{{array}}" name="type">
+    <view class="picker">
+      <!-- (点击选择)商品类型：{{array[index]}} -->
+      <text class="xuhua">点击选择 > </text> 
+      {{array[index]}}
+    </view>
+  </picker>
+  </view>
+  <text class="title">5、请输入商品描述内容</text>
+  <textarea class="desc" name="content"/>
+  <text class="title">6、添加商品图片</text>
+  <!-- 图片区域 -->
+  <view class="imageRootAll">
+  <block wx:for="{{imgList}}" wx:key="index">
+    <view class="imgItem">
+      <image class="img" src='{{item}}' mode='aspectFill'></image>
+      <image class="closeImg" bindtap="DeleteImg" src="/image/close.png" data-index="{{index}}"/>
+    </view>
+  </block>
+  <!-- 选择图片按钮 -->
+  <view wx:if="{{imgList.length<8}}" class="imgItem" bindtap="ChooseImage">
+    <image class="photo" src="/image/photo.png"></image>
+  </view>
+</view>
+
+<button type="primary" formType="submit" >发布商品</button>
+</form>

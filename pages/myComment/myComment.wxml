@@ -1,0 +1,21 @@
+<!--导入时间格式化工具filter.wxs-->
+<wxs src="../../utils/filter.wxs" module="filters" />
+<view wx:if="{{list.length>0}}">
+	<!-- 外层 -->
+	<view class='cont_count' wx:for="{{list}}" wx:key="key">
+		<view class="item_root">
+			<view class="item_top" bindtap="goDetail" data-goodid="{{item.goodId}}">
+				<image class="pic" src="{{item.goodImage}}"></image>
+				<text class='name'> 
+				{{item.goodName}}
+				</text>
+			</view>
+			<text class='time'>{{item._createTime?filters.formatDate(item._createTime):''}}</text>
+			<view class='content'>评论：{{item.content}}</view>
+		</view>
+	</view>
+</view>
+<!-- 否则 -->
+<view wx:else class='nothing'>
+	<label class='none_tab'>数据为空哦~~</label>
+</view>
