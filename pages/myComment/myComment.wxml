@@ -17,5 +17,5 @@
 </view>
 <!-- 否则 -->
 <view wx:else class='nothing'>
-	<label class='none_tab'>数据为空哦~~</label>
+	<label class='none_tab'>数据为空哦~^~</label>
 </view>
