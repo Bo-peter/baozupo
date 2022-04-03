@@ -1,25 +1,25 @@
-const app = getApp()
-let db = wx.cloud.database()
-let goodId = ''
+const App = getApp()
+let DB = wx.cloud.database()
+let goods_id = ''
 Page({
   data: {
-    totalPrice: 0, // 总价，初始为0
-    startDate:"",
-    endDate:"",
-    good:''
+    total_price: 0, // 总价，初始为0
+    start_date:"",
+    end_date:"",
+    goods:''
   },
   onLoad(opt) {
-    goodId = opt.goodid
-    console.log('商品id', goodId)
+    goods_id = opt.goodid
+    console.log('商品id', goods_id)
     this.getGoodDetail()
     this.getCommentList();
   },
   //获取评论列表
   getCommentList() {
     wx.cloud.callFunction({
-      name: 'getPinglun',
+      name: 'getComment',
       data: {
-        goodId: goodId
+        goods_id: goods_id
       }
     }).then(res => {
       console.log("查询评论结果", res)
@@ -40,23 +40,23 @@ Page({
   //修改开始日期
   modifyStartDate:function(e){
     this.setData({
-      startDate:e.detail.value
+      start_date:e.detail.value
     })
   },
   //修改结束日期
   modifyEndDate:function(e){
     this.setData({
-      endDate:e.detail.value
+      end_date:e.detail.value
     })
   },
   //获取商品详情
   getGoodDetail() {
-    db.collection('goods').doc(goodId).get()
+    DB.collection('goods').doc(goods_id).get()
       .then(res => {
         console.log('获取商品详情成功', res)
-        let good = res.data
+        let goods = res.data
         this.setData({
-          good: good
+          goods: goods
         })
       })
       .catch(res => {
@@ -67,7 +67,7 @@ Page({
 
   // 跳转确认订单页面
   gotoOrder: function () {
-    if(this.data.good.masterID == wx.getStorageSync('openid'))
+    if(this.data.goods.masterID == wx.getStorageSync('openid'))
     {
       wx.showModal({
         title: '提示',
@@ -78,11 +78,11 @@ Page({
 
     var now_date = this.getNowTime( new Date());
     var now_times = new Date(now_date).getTime();
-    var start_date = new Date(this.data.startDate.replace(/-/g,"/"));
-    var end_date = new Date(this.data.endDate.replace(/-/g,"/"));
+    var start_date = new Date(this.data.start_date.replace(/-/g,"/"));
+    var end_date = new Date(this.data.end_date.replace(/-/g,"/"));
     var days = end_date.getTime() - start_date.getTime();
     var day = parseInt(days/(1000*60*60*24));
-    if(this.data.startDate == "" || this.data.endDate == "")
+    if(this.data.start_date == "" || this.data.end_date == "")
     {
       wx.showModal({
         title: '提示',
@@ -107,13 +107,13 @@ Page({
       })
       return;
     }
-    wx.setStorageSync('good', this.data.good)
-    wx.setStorageSync('starttime', this.data.startDate)
-    wx.setStorageSync('endtime', this.data.endDate)
+    wx.setStorageSync('goods', this.data.goods)
+    wx.setStorageSync('starttime', this.data.start_date)
+    wx.setStorageSync('endtime', this.data.end_date)
     wx.setStorageSync('day', day)
 
  
-    let userInfo = app.globalData.userInfo;
+    let userInfo = App.globalData.userInfo;
     if (!userInfo || !userInfo.nickName) {
       this.showLoginView()
       return;
@@ -162,8 +162,8 @@ Page({
         this.setData({
           isShowAddressSetting: false
         })
-        user.openid = app.globalData.openid;
-        app._saveUserInfo(user);
+        user.openid = App.globalData.openid;
+        App._saveUserInfo(user);
         wx.navigateTo({
           url: '/pages/pay/pay'
         })
@@ -177,8 +177,8 @@ Page({
   previewImg(event) {
     let index = event.currentTarget.dataset.index
     wx.previewImage({
-      current: this.data.good.img[index], // 当前显示图片的http链接
-      urls: this.data.good.img // 需要预览的图片http链接列表
+      current: this.data.goods.img[index], // 当前显示图片的http链接
+      urls: this.data.goods.img // 需要预览的图片http链接列表
     })
   }
 })

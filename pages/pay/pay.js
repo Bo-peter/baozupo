@@ -136,7 +136,7 @@ Page({
       })
       //支付成功后，把商品数量减少对应个数
       wx.cloud.callFunction({
-        name: "addXiaoLiang",
+        name: "modifyGoodsAttribute",
         data: {
           goods: goods
         }

@@ -27,20 +27,17 @@
       {
         "selectedIconPath": "image/tab1-ok.png",
         "iconPath": "image/tab1.png",
-        "pagePath": "pages/home/home",
-        "text": "首页"
+        "pagePath": "pages/home/home"
       },
       {
         "selectedIconPath": "image/tab2-ok.png",
         "iconPath": "image/tab2.png",
-        "pagePath": "pages/mall/mall",
-        "text": "商品清单"
+        "pagePath": "pages/mall/mall"
       },
       {
         "selectedIconPath": "image/tab3-ok.png",
         "iconPath": "image/tab3.png",
-        "pagePath": "pages/me/me",
-        "text": "我的"
+        "pagePath": "pages/me/me"
       }
     ]
   },

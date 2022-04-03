@@ -9,6 +9,6 @@ cloud.init({
 exports.main = async (event, context) => {
   return await cloud.database().collection('pinglun')
     .where({
-      goodId: event.goodId
+      goodId: event.goods_id
     }).get()
 }

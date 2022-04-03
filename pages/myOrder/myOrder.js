@@ -180,7 +180,7 @@ Page({
       //取消订单后把商品数量加回去
       console.log(goods)
       wx.cloud.callFunction({
-        name: "addXiaoLiang",
+        name: "modifyGoodsAttribute",
         data: {
           goods: goods
         }

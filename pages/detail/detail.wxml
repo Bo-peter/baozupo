@@ -1,10 +1,10 @@
 <!--导入时间格式化工具filter.wxs-->
 <wxs src="../../utils/filter.wxs" module="filters" />
-<view wx:if="{{good}}" class="root">
+<view wx:if="{{goods}}" class="root">
 	<!-- 顶部轮播图 -->
 	<view style="margin: 10rpx;">
 		<swiper indicator-dots="{{true}}" indicator-color="#f4c903" autoplay="true" circular="true" style="width: 100%; height: 600rpx;">
-			<block wx:for="{{good.img}}" wx:key="banner">
+			<block wx:for="{{goods.img}}" wx:key="banner">
 				<swiper-item bindtap="previewImg" data-index="{{index}}">
 					<image src='{{item}}' style="width: 100%;" mode="widthFix"/>
 				</swiper-item>
@@ -13,26 +13,26 @@
 	</view>
 	<!-- 商品信息 -->
 	<view class="good_root">
-		<view class="good_title" style="margin: 20rpx 0rpx;">{{good.name}}</view>
+		<view class="good_title" style="margin: 20rpx 0rpx;">{{goods.name}}</view>
 		<view class="price-stepper">
-			<view class="good_price" style="margin: 20rpx 0rpx;">{{good.price}}元/天</view>
+			<view class="good_price" style="margin: 20rpx 0rpx;">{{goods.price}}元/天</view>
 		
-		<view class="good_num" style="margin: 35rpx 0rpx 0rpx 0rpx;">剩余数量：{{good.num}} </view>
+		<view class="good_num" style="margin: 35rpx 0rpx 0rpx 0rpx;">剩余数量：{{goods.num}} </view>
 		</view>
 	</view>
 	<!-- 发布时间 -->
-	<!-- <view class="good_time">商品发布时间:{{good._createTime?filters.formatDate(good._createTime):''}}</view> -->
+	<!-- <view class="good_time">商品发布时间:{{goods._createTime?filters.formatDate(goods._createTime):''}}</view> -->
 	<view class="container" style="margin: auto;">
-		<picker mode="date" bindchange="modifyStartDate" style="margin: 10rpx 10rpx;">开始日期(点击选择)：{{startDate}}
+		<picker mode="date" bindchange="modifyStartDate" style="margin: 10rpx 10rpx;">开始日期(点击选择)：{{start_date}}
 		</picker>
 	</view>
 	<view style="margin: 20rpx 0rpx;"></view>
 	<view class="container" style="margin: auto;">
-		<picker mode="date" bindchange="modifyEndDate" style="margin: 10rpx 10rpx;">结束日期(点击选择)：{{endDate}}
+		<picker mode="date" bindchange="modifyEndDate" style="margin: 10rpx 10rpx;">结束日期(点击选择)：{{end_date}}
 		</picker>
 	</view>
 	<!-- 商品描述 -->
-	<view class="good_content">{{good.content}}</view>
+	<view class="good_content">{{goods.content}}</view>
 	<!-- 评论区域 -->
 	<view class="pingjia_tip">用户评价:</view>
 	<view wx:if="{{list&&list.length<=0}}">
