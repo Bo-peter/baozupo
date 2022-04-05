@@ -10,11 +10,11 @@ const _ = cloud.database().command
 exports.main = async (event, context) => {
   let mulScoreLine = event.mulScoreLine
   if (event.action == "add" || event.action == 'update') {
-    let res = await dbMulScore.where({
-      userOne: _.or(_.eq(mulScoreLine.userOne), _.eq(mulScoreLine.userTwo)),
-      userTwo: _.or(_.eq(mulScoreLine.userOne), _.eq(mulScoreLine.userTwo)),
-      goodsID: mulScoreLine.goodsID
-    }).count()
+    let res = await dbMulScore.where(_.and([
+      {userOne: _.or(_.eq(mulScoreLine.userOne), _.eq(mulScoreLine.userTwo))},
+      {userTwo: _.or(_.eq(mulScoreLine.userOne), _.eq(mulScoreLine.userTwo))},
+      {goodsID: mulScoreLine.goodsID}
+    ])).count()
     //
     if (res.total == 0) {
       dbMulScore.add({
@@ -26,11 +26,11 @@ exports.main = async (event, context) => {
         }
       })
     } else {
-      dbMulScore.where({
-        userOne: _.or(_.eq(mulScoreLine.userOne), _.eq(mulScoreLine.userTwo)),
-        userTwo: _.or(_.eq(mulScoreLine.userOne), _.eq(mulScoreLine.userTwo)),
-        goodsID: mulScoreLine.goodsID
-      }).update({
+      dbMulScore.where(_.and([
+        {userOne: _.or(_.eq(mulScoreLine.userOne), _.eq(mulScoreLine.userTwo))},
+        {userTwo: _.or(_.eq(mulScoreLine.userOne), _.eq(mulScoreLine.userTwo))},
+        {goodsID: mulScoreLine.goodsID}
+      ])).update({
         data: {
           mulScore: mulScoreLine.mulScore
         }
@@ -38,10 +38,10 @@ exports.main = async (event, context) => {
     }
   } else if(event.action == "getGroupMulScore")
   {
-    return  await dbMulScore.where({
-      userOne: _.or(_.eq(mulScoreLine.userOne), _.eq(mulScoreLine.userTwo)),
-      userTwo: _.or(_.eq(mulScoreLine.userOne), _.eq(mulScoreLine.userTwo)),
-    }).get()
+    return  await dbMulScore.where(_.and([
+      {userOne: _.or(_.eq(mulScoreLine.userOne), _.eq(mulScoreLine.userTwo))},
+      {userTwo: _.or(_.eq(mulScoreLine.userOne), _.eq(mulScoreLine.userTwo))}
+    ])).get()
     
   } 
   else {}

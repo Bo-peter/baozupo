@@ -20,7 +20,8 @@ exports.main = async (event, context) => {
         data: {
           openid: scoreLine.openid,
           goodsID: scoreLine.goodsID,
-          score: scoreLine.score
+          score: scoreLine.score,
+          totalDays: scoreLine.totalDays
         }
       })
     } else {

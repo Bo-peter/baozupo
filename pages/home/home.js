@@ -28,21 +28,25 @@ Page({
   //轮播图点击事件
 
   demo() {
-    let cosLine = {
-      cosValue: 0,
-      userOne: "oHp7c5PFtVlHcPCY-lvRyfytThQI",
-      userTwo: "oHp7c5BP_RUrWBjlkNCZewfPISvU"
-    }
-    wx.cloud.callFunction({
-      name: "cosTableDemo",
-      data: {
-        action: "add",
-        cosLine: cosLine
-      }
-    })
+    // let cosLine = {
+    //   cosValue: 0,
+    //   userOne: "oHp7c5PFtVlHcPCY-lvRyfytThQI",
+    //   userTwo: "oHp7c5BP_RUrWBjlkNCZewfPISvU"
+    // }
     // wx.cloud.callFunction({
-    //   name: "computeCos"
+    //   name: "cosTableDemo",
+    //   data: {
+    //     action: "add",
+    //     cosLine: cosLine
+    //   }
     // })
+    wx.cloud.callFunction({
+      name: "computeCos"
+    }).then(res=>{
+      console.log(res)
+    }).catch(res=>{
+      console.log(res)
+    })
     // let mulScoreLine = {
     //   userOne: "oHp7c5PFtVlHcPCY-lvRyfytThQI",
     //   userTwo: "oHp7c5KKIYNFqG-4eu-wZ_gcDpyg"

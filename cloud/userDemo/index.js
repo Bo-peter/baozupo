@@ -38,13 +38,13 @@ exports.main = async (event, context) => {
     }catch(e){
       console.error(e)
     }
-  } else if(event.action == 'updateScore'){
+  } else if(event.action == 'updateTatalScore'){
     try{
       dbUser.where({
         openid:user.openid
       }).update({
         data:{
-          totalScore:_.inc(user.score)
+          totalScore:user.totalScore
         },
       })
     }catch(e){

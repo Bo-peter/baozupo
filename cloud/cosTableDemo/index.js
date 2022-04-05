@@ -12,10 +12,12 @@ exports.main = async (event, context) => {
   let cosLine = event.cosLine
   if(event.action == 'add'||event.action == 'update')
   {
-    let res = await dbCosTable.where({
-      userOne: _.or(_.eq(cosLine.userOne), _.eq(cosLine.userTwo)),
-      userTwo: _.or(_.eq(cosLine.userOne), _.eq(cosLine.userTwo))
-    }).count()
+    let res = await dbCosTable.where(_.and(
+      [
+        {userOne: _.or(_.eq(cosLine.userOne), _.eq(cosLine.userTwo))},
+      {userTwo: _.or(_.eq(cosLine.userOne), _.eq(cosLine.userTwo))}
+      ]
+    )).count()
     //
     if (res.total == 0) {
       dbCosTable.add({
@@ -26,10 +28,12 @@ exports.main = async (event, context) => {
         }
       })
     } else {
-      dbCosTable.where({
-        userOne: _.or(_.eq(cosLine.userOne), _.eq(cosLine.userTwo)),
-        userTwo: _.or(_.eq(cosLine.userOne), _.eq(cosLine.userTwo))
-      }).update({
+      dbCosTable.where(_.and(
+        [
+          {userOne: _.or(_.eq(cosLine.userOne), _.eq(cosLine.userTwo))},
+        {userTwo: _.or(_.eq(cosLine.userOne), _.eq(cosLine.userTwo))}
+        ]
+      )).update({
         data: {
           cosValue: cosLine.cosValue
         }
