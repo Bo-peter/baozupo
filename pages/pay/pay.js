@@ -29,7 +29,7 @@ Page({
     //获取缓存地址
     this.setData({
       days:wx.getStorageSync('day'),
-      good:wx.getStorageSync('good'),
+      good:wx.getStorageSync('goods')
     })
     this.setData({
       totalPrice: this.data.good.price * this.data.days,
@@ -86,19 +86,18 @@ Page({
       })
       return;
     }
-    let good = wx.getStorageSync('good');
     let startTime = wx.getStorageSync('starttime')
     let endTime = wx.getStorageSync('endtime')
     let consumerID = wx.getStorageSync('openid')
     let goodorder = ({
-      goodName:good.name,
-      goodPrice:good.price,
-      masterID : good.masterID,
+      goodName:this.data.good.name,
+      goodPrice:this.data.good.price,
+      masterID : this.data.good.masterID,
       consumerID:consumerID,
       startTime:startTime,
       endTime:endTime,
       days:this.data.days,
-      goodID:good._id
+      goodID:this.data.good._id
     })
     let res = db.collection("order").add({
       data: {
@@ -107,21 +106,13 @@ Page({
         phone: this.data.address.phone,
         beizhu: this.data.beizhu,
         _createTime: new Date().getTime(), //创建的时间
-        totalPrice: good.price*this.data.days, //总价钱
+        totalPrice: this.data.good.price*this.data.days, //总价钱
         good: goodorder, //存json字符串
         status: 0, //-1订单取消,0新下单发货,1已收货待评价,2订单已完成
         // _createTime: db.serverDate() //创建的时间
       }
     })
-    let goods=[]
-    let proArr = []
-    goods.push({
-      _id: good._id,
-      quantity: -1
-    })
-    proArr.push(res)
-
-    Promise.all(proArr).then(res => {
+   
       console.log("支付成功", res)
       // 支付方式关闭动画
       this.animation.translate(0, 285).step();
@@ -134,10 +125,15 @@ Page({
       wx.showToast({
         title: '下单成功！',
       })
+      let goods = {
+        goodsID : this.data.good._id,
+        quantity:-1
+      }
       //支付成功后，把商品数量减少对应个数
       wx.cloud.callFunction({
         name: "modifyGoodsAttribute",
         data: {
+          action:'update',
           goods: goods
         }
       }).then(res => {
@@ -152,14 +148,6 @@ Page({
           title: '支付失败',
         })
       })
-
-    }).catch(res => {
-      wx.showToast({
-        icon: 'none',
-        title: '支付失败',
-      })
-      console.log("支付失败", res)
-    })
   },
   // 管理收获地址
   addAdress() {

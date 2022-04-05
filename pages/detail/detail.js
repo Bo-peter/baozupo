@@ -164,6 +164,17 @@ Page({
         })
         user.openid = App.globalData.openid;
         App._saveUserInfo(user);
+        wx.cloud.callFunction({
+          name:'userDemo',
+          data:{
+            action:'addNewUser',
+            user:user
+          }
+        }).then(res => {
+          console.log("用户登记成功", res)
+        }).catch(res => {
+          console.log("用户登记失败", res)
+        }),
         wx.navigateTo({
           url: '/pages/pay/pay'
         })

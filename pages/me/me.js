@@ -23,6 +23,17 @@ Page({
           userInfo: user,
         })
         user.openid = app.globalData.openid;
+        wx.cloud.callFunction({
+          name:'userDemo',
+          data:{
+            action:'addNewUser',
+            user:user
+          }
+        }).then(res => {
+          console.log("用户登记成功", res)
+        }).catch(res => {
+          console.log("用户登记失败", res)
+        }),
         app._saveUserInfo(user);
       },
       fail: res => {

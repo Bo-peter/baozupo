@@ -24,11 +24,18 @@ exports.main = async (event, context) => {
           masterID: wxContext.OPENID
         }
       }).get()
-  } else {
-    return await dbOrder.orderBy('_createTime', 'desc')
-      .where({
-        status: event.orderStatus
-      }).get()
+  } else if(event.action == 'oneOrder')
+  {
+    let res =  await dbOrder.doc(event.orderID).get()
+    console.log(res);
+    return res;
+  }else
+  {
+    return await dbOrder.orderBy('_createTime', 'desc').get()
+      // .where({
+      //   status: event.orderStatus
+      // })
+      // .get()
   }
 
 }

@@ -13,7 +13,8 @@ Page({
     // 默认选中菜单
     currentTab: 0,
     isShowComment: false, //是否显示评论框
-    list: []
+    list: [],
+    goods:''
   },
   //顶部tab切换
   navbarTap: function (e) {
@@ -113,16 +114,15 @@ Page({
         db.collection("pinglun")
           .add({
             data: {
-              orderId: item._id, //订单号
-              goodId: item.good.goodID, //评价的商品id
-              goodName: item.good.goodName, //评价的商品name
+              orderId: item._id, 
+              goodId: item.good.goodID, 
+              goodName: item.good.goodName, 
               name: app.globalData.userInfo.nickName,
               goodImage:item.good.img,
               masterID:wx.getStorageSync('openid'),
               avatarUrl: app.globalData.userInfo.avatarUrl,
               content: content,
-              // _createTime: db.serverDate() //创建的时间
-              _createTime: new Date().getTime() //创建的时间
+              _createTime: new Date().getTime() 
             }
           }).then(res => {
             console.log("评论成功", res)
@@ -144,7 +144,7 @@ Page({
 
   },
   //确认收货
-  shouhuo(event) {
+  ensureRecvGoods(event) {
     let orderId = event.currentTarget.dataset.item._id;
     db.collection('order').doc(orderId).update({
       data: {
@@ -163,6 +163,37 @@ Page({
         title: '收货失败'
       })
     })
+     wx.cloud.callFunction({
+      name:'getOrderList',
+      data:{
+        action:'oneOrder',
+        orderID:orderId
+      }
+    }).then(res=>{
+      console.log("查询成功", res)
+      this.setData({
+        goods:res.result.data.good
+      })
+      let user = {
+        openid:this.data.goods.consumerID,
+        usingTimes:this.data.goods.days
+      }
+      wx.cloud.callFunction({
+        name:'userDemo',
+        data:{
+          action:'updateInfo',
+          user:user
+        }
+      }).then(res=>{
+       console.log("更新成功", res)
+     }).catch(res=>{
+       console.log("更新失败",res)
+     })
+      
+    }).catch(res=>{
+      console.log("查询失败",res)
+    })
+     
   },
   //取消订单
   cancleOrder(event) {

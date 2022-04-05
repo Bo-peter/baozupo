@@ -1,4 +1,8 @@
 const app = getApp()
+
+const dbScoreTable = wx.cloud.database().collection('scroingTable')
+const _ = wx.cloud.database().command
+const $ = wx.cloud.database().command.aggregate
 let searchKey = '' //搜索词
 Page({
   data: {
@@ -13,14 +17,46 @@ Page({
   //页面可见
   onShow() {
     this.getTopBanner(); //请求顶部轮播图
-    this.getHotGood()
+    this.getHotGood();
+    this.demo()
   },
-  onPullDownRefresh: function() {
-    setTimeout(function(){
+  onPullDownRefresh: function () {
+    setTimeout(function () {
       wx.stopPullDownRefresh()
-    },1200)
+    }, 1200)
   },
   //轮播图点击事件
+
+  demo() {
+    let cosLine = {
+      cosValue: 0,
+      userOne: "oHp7c5PFtVlHcPCY-lvRyfytThQI",
+      userTwo: "oHp7c5BP_RUrWBjlkNCZewfPISvU"
+    }
+    wx.cloud.callFunction({
+      name: "cosTableDemo",
+      data: {
+        action: "add",
+        cosLine: cosLine
+      }
+    })
+    // wx.cloud.callFunction({
+    //   name: "computeCos"
+    // })
+    // let mulScoreLine = {
+    //   userOne: "oHp7c5PFtVlHcPCY-lvRyfytThQI",
+    //   userTwo: "oHp7c5KKIYNFqG-4eu-wZ_gcDpyg"
+    // }
+    // wx.cloud.callFunction({
+    //   name: "mulScoreDemo",
+    //   data: {
+    //     action: "getGroupMulScore",
+    //     mulScoreLine: mulScoreLine
+    //   }
+    // })
+
+  },
+
 
   //去二手商城页
   goToPublish() {
@@ -37,7 +73,7 @@ Page({
   //客服电话
   goToPhone() {
     wx.makePhoneCall({
-      phoneNumber: '15667259820' 
+      phoneNumber: '15667259820'
     })
   },
   //去上门回收页
@@ -58,12 +94,10 @@ Page({
   },
   //获取首页顶部轮播图
   getTopBanner() {
-    wx.cloud.database().collection("lunbotu")
-      .get()
+    wx.cloud.database().collection("lunbotu").get()
       .then(res => {
         console.log("首页banner成功", res.data)
         if (res.data && res.data.length > 0) {
-          //如果后台配置轮播图就用后台的，没有的话就用默认的
           this.setData({
             banner: res.data
           })
