@@ -26,16 +26,11 @@ exports.main = async (event, context) => {
       }).get()
   } else if(event.action == 'oneOrder')
   {
-    let res =  await dbOrder.doc(event.orderID).get()
-    console.log(res);
-    return res;
+    return await dbOrder.doc(event.orderID).get()
   }else
   {
     return await dbOrder.orderBy('_createTime', 'desc').get()
-      // .where({
-      //   status: event.orderStatus
-      // })
-      // .get()
+     
   }
 
 }

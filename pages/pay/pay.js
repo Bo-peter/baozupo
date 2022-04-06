@@ -105,6 +105,10 @@ Page({
         address: this.data.address.address,
         phone: this.data.address.phone,
         beizhu: this.data.beizhu,
+        masterID : this.data.good.masterID,
+        consumerID:consumerID,
+        goodsID:this.data.good._id,
+        days:this.data.days,
         _createTime: new Date().getTime(), //创建的时间
         totalPrice: this.data.good.price*this.data.days, //总价钱
         good: goodorder, //存json字符串

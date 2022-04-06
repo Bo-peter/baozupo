@@ -40,5 +40,13 @@ exports.main = async (event, context) => {
       })
     }
   }
+  else if(event.action == "getCosOrder")
+  {
+    return await dbCosTable.where(_.or([
+      {userOne:_.eq(cosLine.userOne)},{
+      userTwo:_.eq(cosLine.userOne)}
+      ])).orderBy("cosValue","asc").limit(10).get()
+  }
+  else{}
 
 }
