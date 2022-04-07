@@ -100,7 +100,10 @@ exports.main = async (event, context) => {
         userTwo: userScoreList[j]._id,
         cosValue: cosValue
       }
-      console.log(cosLine)
+      if(cosValue == 0)
+      {
+        continue
+      }
       cloud.callFunction({
         name: "cosTableDemo",
         data: {

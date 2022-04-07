@@ -31,9 +31,9 @@ Page({
 
   //测试使用
   demo() {
-    // wx.cloud.callFunction({
-    //   name:"computePredictionScore"
-    // })
+    wx.cloud.callFunction({
+      name:"computePredictionScore"
+    })
     // let predictionScoreLine = {
     //   openid:"oHp7c5KKIYNFqG-4eu-wZ_gcDpyg"
     // }

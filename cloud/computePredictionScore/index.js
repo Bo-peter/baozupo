@@ -117,11 +117,22 @@ exports.main = async (event, context) => {
         bottom +=  Math.abs(andOtherUserCos.get(openid))
       }
       let predictionScore = averageScore[userList[i].openid] + (top/bottom)
+      predictionScore = predictionScore>10?10:predictionScore
+      if(predictionScore<=0||bottom ==0)
+      {
+        continue;
+      }
+      
+      
       let predictionScoreLine = {
         openid:userList[i].openid,
         goodsID:goodsID,
         predictionScore:predictionScore
       }
+
+      
+      
+      
       cloud.callFunction({
         name:"predictionScoreDemo",
         data:{

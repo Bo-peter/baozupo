@@ -104,7 +104,7 @@ Page({
       })
       return;
     }
-    if(day < 0 )
+    if(day <= 0 )
     {
       wx.showModal({
         title: '提示',

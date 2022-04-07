@@ -40,7 +40,8 @@ exports.main = async (event, context) => {
   else if (event.action == "getPredictionGoods")
   {
     return await dbPredictionScore.where({
-      openid :predictionScoreLine.openid
+      openid :predictionScoreLine.openid,
+      predictionScore:_.gt(0)
     }).limit(20).get()
   }
   else {}

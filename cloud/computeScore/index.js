@@ -70,6 +70,10 @@ exports.main = async (event, context) => {
     } else {
       score = (totalDays / (2 * average)) * 10;
     }
+    if(score == 0)
+    {
+      continue
+    }
     scoreLine = {
       openid: orderList[i]._id.openid,
       goodsID: orderList[i]._id.goodID,
