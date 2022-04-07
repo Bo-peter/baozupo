@@ -38,7 +38,6 @@
 		</view>
 	</view>
 </view>
-
 <!-- 热门推荐商品 -->
 <view wx:if="{{goodList&&goodList.length>0}}">
 	<view class="hot_tip">个性推荐</view>

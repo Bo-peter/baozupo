@@ -8,6 +8,11 @@ Page({
     end_date:"",
     goods:''
   },
+  onPullDownRefresh: function () {
+    setTimeout(function () {
+      wx.stopPullDownRefresh()
+    }, 1200)
+  },
   onLoad(opt) {
     goods_id = opt.goodid
     console.log('商品id', goods_id)

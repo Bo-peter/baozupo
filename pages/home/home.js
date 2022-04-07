@@ -1,5 +1,4 @@
-const app = getApp()
-
+const App = getApp()
 
 let searchKey = '' //搜索词
 Page({
@@ -11,21 +10,26 @@ Page({
         picUrl: '/image/top2.png'
       }
     ],
-    goodList:[]
+    goodList: []
   },
   //页面可见
   onShow() {
-    this.getTopBanner(); //请求顶部轮播图
-    this.getHotGood();
     this.demo()
   },
   onPullDownRefresh: function () {
     setTimeout(function () {
       wx.stopPullDownRefresh()
     }, 1200)
+    this.getHotGood();
   },
-  //轮播图点击事件
 
+  //轮播图点击事件
+  onLoad() {
+    this.getTopBanner(); //请求顶部轮播图
+    this.getHotGood();
+  },
+
+  //测试使用
   demo() {
     // wx.cloud.callFunction({
     //   name:"computePredictionScore"
@@ -43,8 +47,26 @@ Page({
   },
 
 
+
+ 
   //去二手商城页
   goToPublish() {
+    let userInfo = App.globalData.userInfo;
+    if (!userInfo || !userInfo.nickName) {
+      wx.showModal({
+        title: '提示',
+        content: '请登录',
+        success  :(res)=> {
+          if (res.confirm) {
+            console.log('用户点击确定')
+            this.goLogin()
+          } else if (res.cancel) {
+            console.log('用户点击取消')
+          }
+        }
+      })
+      return;
+    }
     wx.navigateTo({
       url: '/pages/publish/publish'
     })
@@ -93,7 +115,7 @@ Page({
   },
   //获取首页推荐位的商品
   getHotGood() {
-    let openid = wx.getStorageSync('openid')?wx.getStorageSync('openid'):0;
+    let openid = wx.getStorageSync('openid') ? wx.getStorageSync('openid') : 0;
     wx.cloud.callFunction({
       name: "getGoodList",
       data: {
@@ -115,4 +137,39 @@ Page({
       url: '/pages/detail/detail?goodid=' + e.currentTarget.dataset.id
     })
   },
+
+
+   /**
+   * 授权登录相关
+   */
+  //授权登录
+  goLogin() {
+    wx.getUserProfile({
+      desc: '用于完善会员资料', // 声明获取用户个人信息后的用途，后续会展示在弹窗中，请谨慎填写
+      success: (res) => {
+        console.log("获取用户信息成功", res)
+        let user = res.userInfo
+        this.setData({
+          isShowAddressSetting: false
+        })
+        user.openid = App.globalData.openid;
+        App._saveUserInfo(user);
+        wx.cloud.callFunction({
+            name: 'userDemo',
+            data: {
+              action: 'addNewUser',
+              user: user
+            }
+          }).then(res => {
+            console.log("用户登记成功", res)
+          }).catch(res => {
+            console.log("用户登记失败", res)
+          })
+      },
+      fail: res => {
+        console.log("获取用户信息失败", res)
+      }
+    })
+  }
 })
+

@@ -12,6 +12,16 @@ swiper {
   justify-content: space-between;
 }
 
+.showToast {
+  position: absolute;
+  background: white;
+  opacity: 1;
+  width: 100%;
+  height: 300rpx;
+  bottom: 0;
+  z-index: 888;
+}
+
 .searchInput {
   flex: 1;
   height: 70rpx;
