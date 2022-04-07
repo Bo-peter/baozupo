@@ -41,7 +41,7 @@
 
 <!-- 热门推荐商品 -->
 <view wx:if="{{goodList&&goodList.length>0}}">
-	<view class="hot_tip">热门推荐</view>
+	<view class="hot_tip">个性推荐</view>
 	<block wx:for="{{goodList}}" wx:key="index">
 		<view class="good_item" data-id="{{item._id}}" bindtap="goDetail">
 			<image class="cai_img" src="{{item.img[0]}}" />

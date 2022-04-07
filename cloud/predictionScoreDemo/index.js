@@ -37,6 +37,12 @@ exports.main = async (event, context) => {
       })
     }
   }
+  else if (event.action == "getPredictionGoods")
+  {
+    return await dbPredictionScore.where({
+      openid :predictionScoreLine.openid
+    }).limit(20).get()
+  }
   else {}
 
 

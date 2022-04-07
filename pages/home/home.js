@@ -1,8 +1,6 @@
 const app = getApp()
 
-const dbScoreTable = wx.cloud.database().collection('scroingTable')
-const _ = wx.cloud.database().command
-const $ = wx.cloud.database().command.aggregate
+
 let searchKey = '' //搜索词
 Page({
   data: {
@@ -13,6 +11,7 @@ Page({
         picUrl: '/image/top2.png'
       }
     ],
+    goodList:[]
   },
   //页面可见
   onShow() {
@@ -28,10 +27,19 @@ Page({
   //轮播图点击事件
 
   demo() {
-    wx.cloud.callFunction({
-      name:"recommed"
-    })
-    
+    // wx.cloud.callFunction({
+    //   name:"computePredictionScore"
+    // })
+    // let predictionScoreLine = {
+    //   openid:"oHp7c5KKIYNFqG-4eu-wZ_gcDpyg"
+    // }
+    // wx.cloud.callFunction({
+    //   name:"predictionScoreDemo",
+    //   data:{
+    //     action:"getPredictionGoods",
+    //     predictionScoreLine:predictionScoreLine
+    //   }
+    // })
   },
 
 
@@ -85,15 +93,17 @@ Page({
   },
   //获取首页推荐位的商品
   getHotGood() {
+    let openid = wx.getStorageSync('openid')?wx.getStorageSync('openid'):0;
     wx.cloud.callFunction({
       name: "getGoodList",
       data: {
-        action: 'getHot'
+        action: 'getHot',
+        openid: openid
       }
     }).then(res => {
       console.log("首页推荐商品数据", res.result)
       this.setData({
-        goodList: res.result.data,
+        goodList: res.result,
       })
     }).catch(res => {
       console.log("菜品数据请求失败", res)

@@ -6,6 +6,7 @@ cloud.init({
 })
 const db = cloud.database()
 const _ = db.command
+const $ = _.aggregate
 const dbGood = db.collection('goods')
 
 // 云函数入口函数
@@ -28,14 +29,58 @@ exports.main = async (event, context) => {
       })
       .orderBy('_createTime', 'desc')
       .get()
-  } else if (event.action == 'getHot') { //获取首页推荐位热门商品
-    return await dbGood.where({
+  } else if (event.action == 'getHot') { 
+    let predictionGoodsNum = 0
+    let set = new Set()
+    let goodsList = []
+    if(event.openid != 0){
+      let predictionScoreLine = {
+        openid : event.openid
+      }
+      let predictionGoodsRes = await cloud.callFunction({
+        name:"predictionScoreDemo",
+        data:{
+          action:"getPredictionGoods",
+          predictionScoreLine:predictionScoreLine
+        }
+      })
+      let predictionGoods = predictionGoodsRes.result.data
+      for(var i = 0;i<predictionGoods.length;i++)
+      {
+        let goodsLine = {
+          goodsID :predictionGoods[i].goodsID
+        }
+        let goods = await cloud.callFunction({
+          name : "goodsDemo",
+          data:{
+            action : "getGoodsInfo",
+            goodsLine:goodsLine
+          }
+         
+        })
+        set.add(predictionGoods[i].goodsID)
+        goodsList[predictionGoodsNum++] = goods.result.data
+      }
+    }
+    if(event.openid == 0|| predictionGoodsNum<20){
+      let goodsRadomRes =  await dbGood.aggregate().match({
         status: '上架',
         tuijian: true,
         num: _.gt(0) //剩余数量需要大于0
-      })
-      .orderBy('_createTime', 'desc')
-      .get()
+      }).sample({
+        size: 20
+      }).end()
+      let goodsRadom = goodsRadomRes.list
+      for(var i = 0;i<goodsRadom.length&&predictionGoodsNum<20;i++)
+      {
+        if(!set.has(goodsRadom[i]._id))
+        {
+          goodsList[predictionGoodsNum++] = goodsRadom[i]
+          set.add(goodsRadom[i]._id);
+        }
+      }
+    }
+    return  goodsList;
   } else if (event.action == 'seller') { //获取我发布的商品
     return await dbGood.where({
         _openid: wxContext.OPENID
