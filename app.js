@@ -151,7 +151,7 @@ App({
     }
     return desc;
   },
-  // 获取用户所在城市，只能同一个城市的跑腿员才能抢单
+  // 获取用户所在城市
   _getCity: function (address) {
     var city = null;
     if (address) {

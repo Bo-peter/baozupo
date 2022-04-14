@@ -27,8 +27,8 @@
 			<view wx:if="{{item.status!=-1}}" class='coent_list'>
 				<label wx:if="{{item.status==0}}" class='dingdanbtn' data-item='{{item}}' bindtap='ensureRecvGoods'>确认收货</label>
 				<label wx:if="{{item.status==0}}" class='cancle' data-item='{{item}}' bindtap='cancleOrder'>取消订单</label>
-				<label wx:if="{{item.status==1}}" class='dingdanbtn' data-item='{{item}}' bindtap='showComment'>去评价</label>
-				<label wx:if="{{item.status==2}}" class='dingdanbtn' bindtap='goCommentPage'>查看评价</label>
+				<label wx:if="{{item.status==2}}" class='dingdanbtn' data-item='{{item}}' bindtap='showComment'>去评价</label>
+				<label wx:if="{{item.status==3}}" class='dingdanbtn' bindtap='goCommentPage'>查看评价</label>
 			</view>
 		</view>
 		<view class='dibuttxt'>地址:{{item.address}}</view>

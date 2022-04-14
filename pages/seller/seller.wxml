@@ -56,6 +56,8 @@
 				<view wx:if="{{item.status!=-1}}" class='coent_list'>
 					<label wx:if="{{item.status==0}}" class='dingdanbtn' data-id='{{item._id}}'
 						bindtap='songda'>已送达</label>
+						<label wx:if="{{item.status==1}}" class='dingdanbtn' data-id='{{item._id}}'
+						bindtap='returnOrder'>已归还</label>
 				</view>
 			</view>
 			<view class='dibuttxt'>地址:{{item.address}}</view>

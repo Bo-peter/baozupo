@@ -16,6 +16,12 @@ exports.main = async (event, context) => {
         status: 1
       }
     })
+  }else if (event.action == 'return') { //商品送达，待用户评价
+    return await cloud.database().collection('order').doc(event.id).update({
+      data: {
+        status: 2
+      }
+    })
   }
 
 

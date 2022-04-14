@@ -9,7 +9,7 @@ Page({
     },1200)
   },
   data: {
-    navbar: ["待收货", "待评价", "已完成", "已取消"],
+    navbar: ["待收货", "待归还","待评价", "已完成", "已取消"],
     // 默认选中菜单
     currentTab: 0,
     isShowComment: false, //是否显示评论框
@@ -29,8 +29,11 @@ Page({
     } else if (index == 2) {
       orderStatus = 2;
     } else if (index == 3) {
+      orderStatus = 3;
+    } else if(index == 4)
+    {
       orderStatus = -1;
-    } else {
+    }else {
       orderStatus = 0;
     }
     this.getMyOrderList();
@@ -107,7 +110,7 @@ Page({
       })
       .update({
         data: {
-          status: 2
+          status: 3
         },
       }).then(res => {
         console.log("修改状态成功", res)
@@ -195,13 +198,16 @@ Page({
     })
      
   },
+
+   
+
   //取消订单
   cancleOrder(event) {
     let item = event.currentTarget.dataset.item
-    let goods = [{
-      _id: item.good.goodID,
+    let goods = {
+      goodsID: item.good.goodID,
       quantity: 1
-    }]
+    }
     db.collection('order').doc(item._id).update({
       data: {
         status: -1
